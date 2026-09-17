@@ -1,53 +1,60 @@
 import { NavLink } from "react-router-dom";
-import {
-    Home,
-    User,
-    Sparkles,
-    Library,
-    Bookmark,
-    GraduationCap,
-} from "lucide-react";
+import {User,Sparkles,Library,Bookmark,GraduationCap, LogOut, BookOpen} from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import "./Sidebar.css";
 
 function Sidebar() {
-    return (
-        <aside className="sidebar">
-            <div className="sidebar-logo">
-                <h2>Libri</h2>
-            </div>
+  const { user, logout } = useAuth();
 
-            <nav className="sidebar-navigation">
-                <NavLink to="/">
-                <Home size={20}/>
-                    Home
-                </NavLink>
+  if (!user) {
+    return null;
+  }
+  return (
+    <aside className="sidebar">
+      <div className="sidebar-logo">
+        <BookOpen size = {30}></BookOpen>
+        <h2>Libri</h2>
+      </div>
 
-                <NavLink to="/leesprofiel">
-                <User size={20}/>
-                    Leesprofiel
-                </NavLink>
+      <nav className="sidebar-navigation">
 
-                <NavLink to="/advies">
-                <Sparkles size={20}/>
-                    Leesadvies
-                </NavLink>
+        {user.role === "student" && (
+          <>
+            <NavLink to="/profiel">
+              <User size={20} />
+              Leesprofiel
+            </NavLink>
+            <NavLink to="/advies">
+              <Sparkles size={20} />
+              Leesadvies
+            </NavLink>
+            <NavLink to="/catalogus">
+              <Library size={20} />
+              Catalogus
+            </NavLink>
+            <NavLink to="/leeslijst">
+              <Bookmark size={20} />
+              Mijn leeslijst
+            </NavLink>
+          </>
+        )}
 
-                <NavLink to="/catalogus">
-                <Library size={20}/>
-                    Catalogus
-                </NavLink>
+        {user.role === "docent" && (
 
-                <NavLink to="/leeslijst">
-                <Bookmark size={20}/>
-                    Mijn leeslijst
-                </NavLink>
-
-                <NavLink to="/docent">
-                <GraduationCap size={20}/>
-                    Docent
-                </NavLink>
-            </nav>
-        </aside>
-    );
+          <NavLink to="/docent">
+            <GraduationCap size={20} />
+            Docent
+          </NavLink>
+        )}
+        
+      </nav>
+      
+       <button className="sidebar-logout" onClick={logout}>
+                <LogOut size={20} />
+                Uitloggen
+            </button>
+    </aside>
+  );
 }
 
 export default Sidebar;
