@@ -7,26 +7,26 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleStudentLogin = () => {
-    login("Thijs Vernooij", "student");
+    login("Thijs Vernooij","thijsvernooij01@gmail.com", "student");
     navigate("/home");
   };
 
   const handleTeacherLogin = () => {
-    login("Mvr. Janssen", "docent");
+    login("Mvr. Janssen","janssen@test.nl", "docent");
     navigate("/docent");
   };
 
   return (
     <div className="login-page">
       <div className="login-card">
-        <h1>Inloggen</h1>
+        <h1>Log in</h1>
 
-        <p>Log in om Libri te gebruiken.</p>
+        <p>Log in to use Libri.</p>
 
         <div className="login-buttons">
-          <button onClick={handleStudentLogin}>Inloggen als student</button>
+          <button onClick={handleStudentLogin}>Log in as student</button>
 
-          <button onClick={handleTeacherLogin}>Inloggen als docent</button>
+          <button onClick={handleTeacherLogin}>Log in as teacher</button>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-function LeeslijstPage() {
+function ReadinglistPage() {
     return (
         <div>
             <h1>Mijn leeslijst</h1>
@@ -7,4 +7,4 @@ function LeeslijstPage() {
     );
 }
 
-export default LeeslijstPage;
+export default ReadinglistPage;

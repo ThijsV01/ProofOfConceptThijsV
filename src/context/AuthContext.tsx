@@ -4,7 +4,7 @@ import type { User, UserRole } from "../types/User";
 
 type AuthContextType = {
     user: User | null;
-    login: (name: string, role: UserRole) => void;
+    login: (name: string, email: string, role: UserRole) => void;
     logout: () => void;
 };
 
@@ -33,9 +33,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }, [user]);
 
-    const login = (name: string, role: UserRole) => {
+    const login = (name: string, email: string, role: UserRole) => {
         setUser({
             name,
+            email,
             role
         });
     };

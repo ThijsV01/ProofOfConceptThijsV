@@ -20,30 +20,30 @@ function Sidebar() {
 
         {user.role === "student" && (
           <>
-            <NavLink to="/profiel">
+            <NavLink to="/profile">
               <User size={20} />
-              Leesprofiel
+              Reading profile
             </NavLink>
-            <NavLink to="/advies">
+            <NavLink to="/advice">
               <Sparkles size={20} />
-              Leesadvies
+              Reading advice
             </NavLink>
-            <NavLink to="/catalogus">
+            <NavLink to="/catalog">
               <Library size={20} />
-              Catalogus
+              Catalog
             </NavLink>
-            <NavLink to="/leeslijst">
+            <NavLink to="/readinglist">
               <Bookmark size={20} />
-              Mijn leeslijst
+              My readinglist
             </NavLink>
           </>
         )}
 
         {user.role === "docent" && (
 
-          <NavLink to="/docent">
+          <NavLink to="/teacher">
             <GraduationCap size={20} />
-            Docent
+            Teacher
           </NavLink>
         )}
         
@@ -51,7 +51,7 @@ function Sidebar() {
       
        <button className="sidebar-logout" onClick={logout}>
                 <LogOut size={20} />
-                Uitloggen
+                Log out
             </button>
     </aside>
   );

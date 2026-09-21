@@ -9,10 +9,10 @@ function PublicRoute() {
     }
 
     if (user.role === "student") {
-        return <Navigate to="/profiel" replace />;
+        return <Navigate to="/profile" replace />;
     }
 
-    return <Navigate to="/docent" replace />;
+    return <Navigate to="/teacher" replace />;
 }
 
 export default PublicRoute;
