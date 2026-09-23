@@ -22,19 +22,19 @@ function Sidebar() {
           <>
             <NavLink to="/profile">
               <User size={20} />
-              Reading profile
+              Leesprofiel
             </NavLink>
             <NavLink to="/advice">
               <Sparkles size={20} />
-              Reading advice
+              Leesadvies
             </NavLink>
             <NavLink to="/catalog">
               <Library size={20} />
-              Catalog
+              Catalogus
             </NavLink>
             <NavLink to="/readinglist">
               <Bookmark size={20} />
-              My readinglist
+              Mijn leeslijst
             </NavLink>
           </>
         )}
@@ -43,7 +43,7 @@ function Sidebar() {
 
           <NavLink to="/teacher">
             <GraduationCap size={20} />
-            Teacher
+            Docent
           </NavLink>
         )}
         
@@ -51,7 +51,7 @@ function Sidebar() {
       
        <button className="sidebar-logout" onClick={logout}>
                 <LogOut size={20} />
-                Log out
+                Uitloggen
             </button>
     </aside>
   );

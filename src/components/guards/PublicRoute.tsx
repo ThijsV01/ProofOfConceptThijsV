@@ -2,17 +2,13 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 function PublicRoute() {
-    const { user } = useAuth();
+    const { isAuthenticated } = useAuth();
 
-    if (!user) {
-        return <Outlet />;
+    if (isAuthenticated) {
+        return <Navigate to="/profile"/>;
     }
-
-    if (user.role === "student") {
-        return <Navigate to="/profile" replace />;
-    }
-
-    return <Navigate to="/teacher" replace />;
+    return <Outlet/>
+    
 }
 
 export default PublicRoute;

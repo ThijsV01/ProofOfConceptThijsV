@@ -13,10 +13,25 @@ function RoleRoute({ allowedRole }: RoleRouteProps) {
         return <Navigate to="/" replace />;
     }
 
-    if (user.role !== allowedRole) {
-        return <Navigate to="/404" replace />;
-    }
+     if (user.role !== allowedRole) {
+        if (user.role === "student") {
+            return (
+                <Navigate
+                    to="/profile"
+                    replace
+                />
+            );
+        }
 
+        if (user.role === "docent") {
+            return (
+                <Navigate
+                    to="/teacher"
+                    replace
+                />
+            );
+        }
+    }
     return <Outlet />;
 }
 
