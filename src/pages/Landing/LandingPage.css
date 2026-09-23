@@ -45,3 +45,8 @@
 .landing-login-button:hover {
     background-color: #374151;
 }
+.landing-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}

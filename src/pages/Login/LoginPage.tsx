@@ -1,19 +1,29 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useState } from "react";
 import "./LoginPage.css";
 
 function LoginPage() {
-  const { login } = useAuth();
+  const { login, isLoading, error} = useAuth();
   const navigate = useNavigate();
 
-  const handleStudentLogin = () => {
-    login("Thijs Vernooij","thijsvernooij01@gmail.com", "student");
-    navigate("/home");
-  };
+  const [email, setEmail] = useState(""); 
+  const [password, setPassword] = useState("")
 
-  const handleTeacherLogin = () => {
-    login("Mvr. Janssen","janssen@test.nl", "docent");
-    navigate("/docent");
+  const handleLogin = async () => { 
+
+    if (!email || !password) { 
+      return; 
+    } 
+
+    try { 
+
+      await login( email, password ); 
+      navigate("/profile"); 
+
+    } catch { 
+      // AuthContext handelt de fout af. 
+    } 
   };
 
   return (
@@ -21,13 +31,35 @@ function LoginPage() {
       <div className="login-card">
         <h1>Log in</h1>
 
-        <p>Log in to use Libri.</p>
+        <p>Log in om Libri te gebruiken.</p>
 
-        <div className="login-buttons">
-          <button onClick={handleStudentLogin}>Log in as student</button>
-
-          <button onClick={handleTeacherLogin}>Log in as teacher</button>
-        </div>
+        <div> 
+          <label htmlFor="email">
+             E-mailadres 
+          </label> 
+          <input id="email" type="email" value={email} 
+            onChange={(event) => setEmail(event.target.value) } placeholder="jouw@email.nl" />
+        </div> 
+        <div> 
+          <label htmlFor="password"> 
+            Wachtwoord 
+          </label> 
+          <input id="password" type="password" value={password}
+           onChange={(event) => setPassword(event.target.value) } placeholder="Wachtwoord" />
+        </div> 
+        {error && ( 
+          <p className="login-error"> 
+            {error} 
+          </p> )} 
+        <button onClick={handleLogin} disabled={isLoading} > 
+          {isLoading ? "Inloggen..." : "Inloggen"} 
+        </button> 
+        <p> 
+          Nog geen account?{" "} 
+          <Link to="/register"> 
+            Registreer hier 
+          </Link> 
+        </p> 
       </div>
     </div>
   );

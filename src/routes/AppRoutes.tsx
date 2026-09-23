@@ -6,6 +6,7 @@ import PublicRoute from "../components/guards/PublicRoute";
 import AppLayout from "../components/layout/AppLayout";
 
 import LoginPage from "../pages/Login/LoginPage";
+import RegisterPage from "../pages/Register/RegisterPage";
 import LandingPage from "../pages/Landing/LandingPage";
 import AdvicePage from "../pages/Advice/AdvicePage";
 import ProfilePage from "../pages/Profile/ProfilePage";
@@ -21,6 +22,7 @@ function AppRoutes() {
 
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>

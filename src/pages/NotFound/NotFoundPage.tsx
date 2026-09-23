@@ -7,15 +7,15 @@ function NotFoundPage() {
             <div className="not-found-content">
                 <span className="not-found-code">404</span>
 
-                <h1>Page not found</h1>
+                <h1>Pagina niet gevonden</h1>
 
                 <p>
-                    The page u tried to find doesn't exist, 
-                    or you don't have access to this page.
+                    De pagina die je probeerde te vinden bestaat niet 
+                    of je hebt geen toegang tot deze pagina. 
                 </p>
 
                 <Link to="/">
-                    Back
+                    Terug
                 </Link>
             </div>
         </div>

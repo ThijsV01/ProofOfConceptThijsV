@@ -5,16 +5,21 @@ function LandingPage() {
     return (
         <div className="landing-page">
             <div className="landing-content">
-                <h1>Welcome to Libri</h1>
+                <h1>Welkom bij Libri</h1>
 
                 <p>
-                    Discover books that fit your reading preferences and 
-                    receive personalized reading recommendations
+                    Ontdek boeken die passen bij jouw leesvoorkeuren 
+                    en ontvang persoonlijke leesadviezen.
                 </p>
-
+                <div className="landing-buttons">
                 <Link className="landing-login-button" to="/login">
                     Log in
                 </Link>
+
+                <Link className="landing-login-button" to="/register">
+                    Registreer
+                </Link>
+                </div>
             </div>
         </div>
     );

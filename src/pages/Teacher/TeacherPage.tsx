@@ -1,7 +1,7 @@
 function TeacherPage() {
     return (
         <div>
-            <h1>Teacher</h1>
+            <h1>Docent</h1>
             <p>Hier komt straks het docentgedeelte.</p>
         </div>
     );
