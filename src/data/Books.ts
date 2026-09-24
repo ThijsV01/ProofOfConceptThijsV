@@ -1,6 +1,6 @@
 import type { Book } from "../types/Book";
 
-export const books: Book[] = [
+export const mockAdviceBooks: Book[] = [
     {
         id: 1,
         title: "Harry Potter en de Steen der Wijzen",
