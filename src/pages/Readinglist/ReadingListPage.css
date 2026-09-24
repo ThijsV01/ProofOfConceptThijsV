@@ -1,0 +1,75 @@
+.leeslijst-page {
+    padding: 32px;
+}
+
+.leeslijst-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.leeslijst-header h1 {
+    margin-bottom: 8px;
+}
+
+.leeslijst-header p {
+    margin: 0;
+    color: #666;
+}
+
+.leeslijst-count {
+    padding: 10px 16px;
+    border-radius: 20px;
+    background: #f0e9ff;
+    font-weight: 600;
+}
+
+.reading-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.reading-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.reading-list-info h3 {
+    margin: 0 0 6px;
+}
+
+.reading-list-info p {
+    margin: 0 0 10px;
+    color: #666;
+}
+
+.reading-list-info span {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.reading-list-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.reading-list-actions button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.empty-reading-list {
+    padding: 40px;
+    text-align: center;
+    background: white;
+    border-radius: 16px;
+}

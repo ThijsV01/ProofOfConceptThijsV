@@ -1,0 +1,102 @@
+/* =========================
+   Adviespagina
+   ========================= */
+
+.advies-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+.advies-page-header {
+    margin-bottom: 32px;
+}
+
+.advies-page-header h1 {
+    margin-bottom: 8px;
+}
+
+.advies-page-header p {
+    color: #666;
+    font-size: 16px;
+}
+
+.book-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.book-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.book-card h2 {
+    margin: 0 0 6px;
+    font-size: 22px;
+}
+
+.book-author {
+    margin: 0 0 18px;
+    color: #777;
+}
+
+.book-description {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.book-skeleton-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.book-skeleton-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.skeleton {
+    background: #e5e7eb;
+    border-radius: 6px;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-title {
+    width: 45%;
+    height: 24px;
+    margin-bottom: 10px;
+}
+
+.skeleton-author {
+    width: 25%;
+    height: 16px;
+    margin-bottom: 24px;
+}
+
+.skeleton-description {
+    width: 100%;
+    height: 16px;
+    margin-bottom: 10px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}

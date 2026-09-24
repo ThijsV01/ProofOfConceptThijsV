@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { ReadingProfile } from "../../types/Profile";
-import "../Profile/ProfilePage.css";
 import ProfileOverview from "../../components/profile/ProfileOverview";
 import ProfileForm from "../../components/profile/ProfileForm";
+import "../Profile/ProfilePage.css";
 
 const emptyProfile: ReadingProfile = {
   fictionGenre: [],
