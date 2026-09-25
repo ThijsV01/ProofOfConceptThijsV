@@ -1,3 +1,5 @@
+import './BookSkeleton.css';
+
 function BookSkeleton() {
     return (
         <div className="book-list">

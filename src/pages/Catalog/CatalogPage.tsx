@@ -5,13 +5,17 @@ import CatalogusFilters from "../../components/catalog/CatalogFilters";
 import BookListSkeleton from "../../components/books/BookSkeleton";
 import Pagination from "../../components/catalog/Pagination";
 import { mockBooks } from "../../data/Catalog";
-import { addToReadingList } from "../../services/readingListStorage";
-import "./CatalogPage.css"
+import {
+  addToReadingList,
+  getReadingList,
+} from "../../services/readingListStorage";
+import "./CatalogPage.css";
 
 function CatalogPage() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [readingList, setReadingList] = useState(getReadingList());
 
   const [languageLevel, setLanguageLevel] = useState("");
   const [genre, setGenre] = useState("");
@@ -26,8 +30,13 @@ function CatalogPage() {
     setLoading(true);
 
     const timer = setTimeout(() => {
-      setBooks(mockBooks);
-      setLoading(false);
+      try {
+        setBooks(mockBooks);
+      } catch {
+        setError("De leesadviezen konden niet worden geladen.");
+      } finally {
+        setLoading(false);
+      }
     }, 500);
 
     return () => clearTimeout(timer);
@@ -93,7 +102,8 @@ function CatalogPage() {
 
   function handleAddToReadingList(book: Book) {
     addToReadingList(book);
-}
+    setReadingList(getReadingList());
+  }
 
   return (
     <div className="catalogus-page">
@@ -136,7 +146,11 @@ function CatalogPage() {
 
       {!loading && !error && filteredBooks.length > 0 && (
         <>
-          <BookList books={paginatedBooks} onAddToReadingList={handleAddToReadingList}/>
+          <BookList
+            books={paginatedBooks}
+            readingList={readingList}
+            onAddToReadingList={handleAddToReadingList}
+          />
 
           <Pagination
             currentPage={currentPage}

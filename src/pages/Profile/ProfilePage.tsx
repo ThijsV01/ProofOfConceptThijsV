@@ -94,31 +94,40 @@ function ProfilePage() {
   };
 
   return (
-    <div className="profile-page">
-      <h1>Leesprofiel</h1>
-      {hasProfile && !editing ? (
-      <p>Bekijk hieronder het leesprofiel. <br></br>
-        Om dit profiel aan te passen dien je onderaan op de 'Bewerken' knop te klikken.</p>
-      ):(
-      <p>Beantwoord de vragen om jouw leesprofiel samen te stellen.</p>
-      )}
-      {saved && (
-        <div className="success-message">Je leesprofiel is opgeslagen!</div>
-      )}
+  <div className="profile-page">
+    <div className="profile-page-header">
+  <h1>Leesprofiel</h1>
 
-      {hasProfile && !editing ? (
-        <ProfileOverview profile={profile} onEdit={handleEdit} />
-      ) : (
-        <ProfileForm
-          profile={profile}
-          onChange={setProfile}
-          onSubmit={handleSave}
-          onCancel={handleCancel}
-          isEditing={editing}
-        />
-      )}
-    </div>
-  );
+  {hasProfile && !editing ? (
+    <p>Bekijk en pas jouw leesvoorkeuren aan.</p>
+  ) : (
+    <p>Vul jouw leesvoorkeuren in.</p>
+  )}
+</div>
+
+    {saved && (
+      <div className="success-message">
+        <span>✓</span>
+        Je leesprofiel is opgeslagen!
+      </div>
+    )}
+
+    {hasProfile && !editing ? (
+      <ProfileOverview
+        profile={profile}
+        onEdit={handleEdit}
+      />
+    ) : (
+      <ProfileForm
+        profile={profile}
+        onChange={setProfile}
+        onSubmit={handleSave}
+        onCancel={handleCancel}
+        isEditing={editing}
+      />
+    )}
+  </div>
+);
 }
 
 export default ProfilePage;

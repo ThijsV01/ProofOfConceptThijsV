@@ -1,4 +1,6 @@
-interface CatalogusFiltersProps {
+import './CatalogFilters.css';
+
+type CatalogusFiltersProps = {
     languageLevel: string;
     genre: string;
     subject: string;

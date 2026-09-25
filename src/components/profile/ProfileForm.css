@@ -1,125 +1,108 @@
-.profile-form-card {
-  width: 100%;
-  max-width: 800px;
-
-  max-height: calc(100vh - 220px);
-
-  margin: 0 auto;
-  padding: 28px;
-
-  background: white;
-  border-radius: 18px;
-
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-
-  overflow-y: auto;
-  box-sizing: border-box;
-}
-
-/* Scrollbar */
-.profile-form-card::-webkit-scrollbar {
-  width: 8px;
-}
-
-.profile-form-card::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.profile-form-card::-webkit-scrollbar-thumb {
-  background: #c8c8c8;
-  border-radius: 10px;
-}
-
-/* Iedere vraag */
-.form-group {
-  margin-bottom: 32px;
-}
-
-.form-group h2 {
-  margin: 0 0 18px;
-  font-size: 20px;
-  line-height: 1.4;
-}
-
-/* Antwoorden */
-.form-group label {
+.profile-form {
   display: flex;
-  align-items: center;
-
-  width: 100%;
-  box-sizing: border-box;
-
-  padding: 12px 14px;
-  margin-bottom: 8px;
-
-  border: 1px solid #ddd;
-  border-radius: 10px;
-
-  cursor: pointer;
-  transition: background-color 0.15s, border-color 0.15s;
-}
-
-.form-group label:hover {
-  background-color: #f5f5f5;
-}
-
-.form-group input {
-  margin-right: 10px;
-}
-
-/* Knoppen */
-.form-actions {
-  display: flex;
+  flex-direction: column;
   gap: 12px;
+}
 
-  margin-top: 20px;
-  padding-top: 20px;
+.profile-form details {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
 
+.profile-form summary {
+  padding: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.form-content {
+  padding: 16px;
   border-top: 1px solid #eee;
 }
 
-.form-submit,
-.form-cancel {
-  padding: 12px 20px;
+.option-group + .option-group {
+  margin-top: 20px;
+}
 
-  border: none;
-  border-radius: 10px;
+.option-group h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
 
+.option-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
   cursor: pointer;
-  font-size: 15px;
 }
 
-.form-submit {
-  flex: 1;
+.option.selected {
+  background: #eee7f7;
+  border-color: #7654b8;
+  color: #5d4290;
 }
 
-.form-cancel {
-  flex: 1;
+.form-content label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
-/* Mobiel */
-@media (max-width: 600px) {
-  .profile-form-card {
-    max-height: calc(100vh - 160px);
+.form-content select {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
 
-    padding: 18px;
-    border-radius: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+
+  background: white;
+}
+
+.profile-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.save-button,
+.cancel-button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-button {
+  border: none;
+  background: #7654b8;
+  color: white;
+}
+
+.cancel-button {
+  border: 1px solid #ccc;
+  background: white;
+}
+
+@media (max-width: 700px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
   }
 
-  .form-group h2 {
-    font-size: 17px;
-  }
-
-  .form-group label {
-    padding: 11px 12px;
-  }
-
-  .form-actions {
+  .profile-form-actions {
     flex-direction: column;
   }
 
-  .form-submit,
-  .form-cancel {
+  .save-button,
+  .cancel-button {
     width: 100%;
   }
 }

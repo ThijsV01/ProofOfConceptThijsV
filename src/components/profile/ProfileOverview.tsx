@@ -11,88 +11,78 @@ function ProfileOverview({
   onEdit,
 }: ProfileOverviewProps) {
   return (
-    <div className="profile-overview">
-      <h2>Jouw leesprofiel</h2>
+    <div>
+      <div className="profile-grid">
+        <div className="profile-card">
+          <h3>Genres fictie</h3>
 
-      <div className="profile-section">
-        <h3>Genres fictie</h3>
+          <div className="profile-values">
+            {profile.fictionGenre.map((genre) => (
+              <span key={genre}>{genre}</span>
+            ))}
+          </div>
+        </div>
 
-        {profile.fictionGenre.map((genre) => (
-          <span key={genre} className="profile-value">
-            {genre}
-          </span>
-        ))}
+        <div className="profile-card">
+          <h3>Genres waargebeurd</h3>
+
+          <div className="profile-values">
+            {profile.nonFictionGenre.map((genre) => (
+              <span key={genre}>{genre}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="profile-card">
+          <h3>Onderwerpen</h3>
+
+          <div className="profile-values">
+            {profile.subjects.map((subject) => (
+              <span key={subject}>{subject}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="profile-card">
+          <h3>Moeilijkheid</h3>
+          <p>{profile.difficulty}</p>
+        </div>
+
+        <div className="profile-card">
+          <h3>Lengte</h3>
+          <p>{profile.length}</p>
+        </div>
+
+        <div className="profile-card">
+          <h3>Wat wil je ervaren?</h3>
+
+          <div className="profile-values">
+            {profile.readingExperience.map((experience) => (
+              <span key={experience}>{experience}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="profile-card">
+          <h3>Fictie of waargebeurd</h3>
+          <p>{profile.fictionPreference}</p>
+        </div>
+
+        <div className="profile-card">
+          <h3>Hoofdpersoon</h3>
+          <p>{profile.mainCharacter}</p>
+        </div>
       </div>
 
-      <div className="profile-section">
-        <h3>Genres waargebeurd</h3>
-
-        {profile.nonFictionGenre.map((genre) => (
-          <span key={genre} className="profile-value">
-            {genre}
-          </span>
-        ))}
+      <div className="profile-actions">
+        <button
+          type="button"
+          onClick={onEdit}
+          className="edit-profile-button"
+        >
+          Profiel bewerken
+        </button>
       </div>
-
-      <div className="profile-section">
-        <h3>Onderwerpen</h3>
-
-        {profile.subjects.map((subject) => (
-          <span key={subject} className="profile-value">
-            {subject}
-          </span>
-        ))}
-      </div>
-
-      <div className="profile-section">
-        <h3>Moeilijkheid</h3>
-
-        <span className="profile-value">
-          {profile.difficulty}
-        </span>
-      </div>
-
-      <div className="profile-section">
-        <h3>Lengte</h3>
-
-        <span className="profile-value">
-          {profile.length}
-        </span>
-      </div>
-
-      <div className="profile-section">
-        <h3>Wat wil je ervaren?</h3>
-
-        {profile.readingExperience.map((experience) => (
-          <span key={experience} className="profile-value">
-            {experience}
-          </span>
-        ))}
-      </div>
-
-      <div className="profile-section">
-        <h3>Fictie of waargebeurd</h3>
-
-        <span className="profile-value">
-          {profile.fictionPreference}
-        </span>
-      </div>
-
-      <div className="profile-section">
-        <h3>Hoofdpersoon</h3>
-
-        <span className="profile-value">
-          {profile.mainCharacter}
-        </span>
-      </div>
-
-      <button
-        type="button"
-        onClick={onEdit}
-        className="edit-profile-button"
-      >
-        Profiel bewerken
-      </button>
     </div>
   );
 }

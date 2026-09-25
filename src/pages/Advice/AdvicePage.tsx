@@ -3,15 +3,21 @@ import type { Book } from "../../types/Book";
 import BookList from "../../components/books/BookList";
 import BookSkeleton from "../../components/books/BookSkeleton";
 import Pagination from "../../components/catalog/Pagination";
-import { mockAdviceBooks } from "../../data/Books";
+import { mockAdviceBookIds } from "../../data/Advice";
+import { mockBooks } from "../../data/Catalog";
+import {addToReadingList,getReadingList} from "../../services/readingListStorage";
 import "./AdvicePage.css";
 
 function AdvicePage() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [readingList, setReadingList] = useState(getReadingList());
   const [currentPage, setCurrentPage] = useState(1);
+
+  const recommendedBooks = mockBooks.filter(book =>
+    mockAdviceBookIds.includes(book.id)
+);
 
   const booksPerPage = 6;
 
@@ -21,7 +27,7 @@ function AdvicePage() {
 
     const timer = setTimeout(() => {
       try {
-        setBooks(mockAdviceBooks);
+        setBooks(recommendedBooks);
       } catch {
         setError("De leesadviezen konden niet worden geladen.");
       } finally {
@@ -44,6 +50,11 @@ function AdvicePage() {
   function handlePageChange(page: number) {
     setCurrentPage(page);
   }
+
+  function handleAddToReadingList(book: Book) {
+    addToReadingList(book);
+    setReadingList(getReadingList());
+}
 
   return (
     <div className="advies-page">
@@ -86,7 +97,7 @@ function AdvicePage() {
 
       {!loading && !error && books.length > 0 && (
         <>
-          <BookList books={paginatedBooks} />
+          <BookList books={paginatedBooks} readingList={readingList} onAddToReadingList={handleAddToReadingList}/>
 
           <Pagination
             currentPage={currentPage}
