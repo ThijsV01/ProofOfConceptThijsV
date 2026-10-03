@@ -4,7 +4,7 @@ import BookList from "../../components/books/BookList";
 import CatalogusFilters from "../../components/catalog/CatalogFilters";
 import BookListSkeleton from "../../components/books/BookSkeleton";
 import Pagination from "../../components/catalog/Pagination";
-import { mockBooks } from "../../data/Catalog";
+import { getBooks } from "../../api/booksApi";
 import {
   addToReadingList,
   getReadingList,
@@ -27,20 +27,26 @@ function CatalogPage() {
   const booksPerPage = 6;
 
   useEffect(() => {
-    setLoading(true);
+    async function loadBooks() {
+        setLoading(true);
+        setError("");
 
-    const timer = setTimeout(() => {
-      try {
-        setBooks(mockBooks);
-      } catch {
-        setError("De leesadviezen konden niet worden geladen.");
-      } finally {
-        setLoading(false);
-      }
-    }, 500);
+        try {
+            const response = await getBooks();
+            setBooks(response.books);
+        } catch (error) {
+            if (error instanceof Error) {
+                setError(error.message);
+            } else {
+                setError("De boeken konden niet worden geladen.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
 
-    return () => clearTimeout(timer);
-  }, []);
+    loadBooks();
+}, []);
 
   const filteredBooks = useMemo(() => {
     return books.filter((book) => {
