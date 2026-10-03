@@ -1,24 +1,59 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { getTeachers } from "../../api/teacherApi";
+import type { Teacher } from "../../api/teacherApi";
 import "./RegisterPage.css";
 
 function RegisterPage() {
 
-  const { register, isLoading, error } = useAuth();
+  const { register, isLoading, error, clearError } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [teacherId, setTeacherId] = useState("");
+
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+
   const [validationError, setValidationError] = useState("");
+  const [teachersLoading, setTeachersLoading] = useState(true);
+
+  useEffect(() => {
+
+    const loadTeachers = async () => {
+
+      try {
+
+        const teachers = await getTeachers();
+        console.log("Teachers response:", teachers);
+
+        setTeachers(teachers.teachers);
+
+      } catch {
+
+        setValidationError(
+          "De docenten konden niet worden opgehaald."
+        );
+
+      } finally {
+
+        setTeachersLoading(false);
+
+      }
+    };
+
+    loadTeachers();
+
+  }, []);
 
   const handleRegister = async () => {
 
     setValidationError("");
 
-    if (!name || !email || !password || !confirmPassword) {
+    if (!name || !email || !password || !confirmPassword || !teacherId) {
       setValidationError("Vul alle velden in.");
       return;
     }
@@ -29,7 +64,7 @@ function RegisterPage() {
     }
 
     try {
-      await register(name, email, password);
+      await register(name, email, password, teacherId);
       navigate("/login");
     } catch {
       // AuthContext handelt de fout af. 
@@ -71,7 +106,40 @@ function RegisterPage() {
           <input id="confirmPassword" type="password" value={confirmPassword} 
             onChange={(event) => setConfirmPassword(event.target.value)} placeholder="Herhaal je wachtwoord" />
         </div> 
-        
+        <div>
+
+          <label htmlFor="teacher">
+            Docent
+          </label>
+
+          <select
+            id="teacher"
+            value={teacherId}
+            onChange={(event) =>
+              setTeacherId(event.target.value)
+            }
+            disabled={teachersLoading}
+          >
+
+            <option value="">
+              {teachersLoading
+                ? "Docenten laden..."
+                : "Kies je docent"}
+            </option>
+
+            {teachers.map((teacher) => (
+              <option
+                key={teacher.id}
+                value={teacher.id}
+              >
+                {teacher.name}
+              </option>
+            ))}
+
+          </select>
+
+        </div>
+
         {(validationError || error) && (
           <p className="register-error"> 
             {validationError || error} 
@@ -81,7 +149,7 @@ function RegisterPage() {
             {isLoading ? "Registreren..." : "Registreren"} 
           </button> 
           <p> Heb je al een account?{" "} 
-            <Link to="/login">
+            <Link to="/login" onClick={clearError}>
              Log hier in 
             </Link> 
           </p> 

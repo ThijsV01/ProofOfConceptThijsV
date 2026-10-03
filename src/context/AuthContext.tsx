@@ -1,6 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {createContext,useContext,useEffect,useState} from "react";
 import type { ReactNode } from "react";
 import type { User } from "../types/User";
+import {loginAPI,registerAPI} from "../api/authApi";
+import { decodeToken } from "../utils/decodeToken";
 
 type AuthContextType = {
     user: User | null;
@@ -10,37 +12,54 @@ type AuthContextType = {
     error: string | null;
     isAuthenticated: boolean;
 
-    login: (email: string, password: string) => Promise<void>;
-
-    register: (
-        name: string,
+    login: (
         email: string,
         password: string
     ) => Promise<void>;
 
+    register: (
+        name: string,
+        email: string,
+        password: string,
+        teacherId: string
+    ) => Promise<void>;
+
     logout: () => void;
+    clearError: () => void;
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext =
+    createContext<AuthContextType | undefined>(
+        undefined
+    );
 
 type AuthProviderProps = {
     children: ReactNode;
 };
 
-export function AuthProvider({ children }: AuthProviderProps) {
+export function AuthProvider({
+    children
+}: AuthProviderProps) {
 
     // --------------------------------------------------
     // USER
     // --------------------------------------------------
 
     const [user, setUser] = useState<User | null>(() => {
-        const savedUser = localStorage.getItem("user");
+
+        const savedUser =
+            localStorage.getItem("user");
 
         if (!savedUser) {
             return null;
         }
 
-        return JSON.parse(savedUser);
+        try {
+            return JSON.parse(savedUser);
+        } catch {
+            localStorage.removeItem("user");
+            return null;
+        }
     });
 
 
@@ -48,46 +67,64 @@ export function AuthProvider({ children }: AuthProviderProps) {
     // TOKEN
     // --------------------------------------------------
 
-    const [token, setToken] = useState<string | null>(() => {
-        return localStorage.getItem("token");
-    });
+    const [token, setToken] =
+        useState<string | null>(() => {
+            return localStorage.getItem("token");
+        });
 
 
     // --------------------------------------------------
     // LOADING & ERROR
     // --------------------------------------------------
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] =
+        useState(false);
 
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] =
+        useState<string | null>(null);
 
 
     // --------------------------------------------------
-    // USER OPSLAAN IN LOCALSTORAGE
+    // USER OPSLAAN
     // --------------------------------------------------
 
     useEffect(() => {
+
         if (user) {
+
             localStorage.setItem(
                 "user",
                 JSON.stringify(user)
             );
+
         } else {
+
             localStorage.removeItem("user");
+
         }
+
     }, [user]);
 
 
     // --------------------------------------------------
-    // TOKEN OPSLAAN IN LOCALSTORAGE
+    // TOKEN OPSLAAN
     // --------------------------------------------------
 
     useEffect(() => {
+
         if (token) {
-            localStorage.setItem("token", token);
+
+            localStorage.setItem(
+                "token",
+                token
+            );
+
         } else {
+
             localStorage.removeItem("token");
+
         }
+
     }, [token]);
 
 
@@ -105,61 +142,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         try {
 
-            // TIJDELIJKE TESTLOGIN
-            // Deze vervangen we later door de backend.
+            const response =
+                await loginAPI({
+                    email,
+                    password
+                });
 
-            if (
-                email === "thijs@example.com" &&
-                password === "123456"
-            ) {
+            const decodedToken =
+                decodeToken(response.token);
 
-                const mockUser: User = {
-                    id: 1,
-                    name: "Thijs Vernooij",
-                    email: "thijs@example.com",
-                    role: "student",
-                };
+            setToken(response.token);
 
-                setUser(mockUser);
-
-                setToken("temporary-token");
-
-                return;
-            }
-
-
-            if (
-                email === "docent@example.com" &&
-                password === "123456"
-            ) {
-
-                const mockUser: User = {
-                    id: 2,
-                    name: "Mvr. Janssen",
-                    email: "docent@example.com",
-                    role: "docent",
-                };
-
-                setUser(mockUser);
-
-                setToken("temporary-token");
-
-                return;
-            }
-
-
-            throw new Error(
-                "Ongeldig e-mailadres of wachtwoord."
-            );
+            setUser({
+                id: decodedToken.userId,
+                role: decodedToken.role
+            });
 
         } catch (error) {
 
             if (error instanceof Error) {
+
                 setError(error.message);
+
             } else {
+
                 setError(
-                    "Er is iets misgegaan."
+                    "Er is iets misgegaan tijdens het inloggen."
                 );
+
             }
 
             throw error;
@@ -179,7 +189,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const register = async (
         name: string,
         email: string,
-        password: string
+        password: string,
+        teacherId: string,
     ) => {
 
         setIsLoading(true);
@@ -187,26 +198,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         try {
 
-            // TIJDELIJK
-            // Later wordt dit een API-call.
-
-            console.log(
-                "Nieuwe gebruiker:",
-                {
-                    name,
-                    email,
-                    password,
-                }
-            );
+            await registerAPI({
+                name,
+                email,
+                password,
+                teacherId,
+                role:"student"
+            });
 
         } catch (error) {
 
             if (error instanceof Error) {
+
                 setError(error.message);
+
             } else {
+
                 setError(
-                    "Er is iets misgegaan."
+                    "Er is iets misgegaan tijdens het registreren."
                 );
+
             }
 
             throw error;
@@ -226,13 +237,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const logout = () => {
 
         setUser(null);
-
         setToken(null);
-
         setError(null);
 
     };
-
+    // --------------------------------------------------
+    // ERROR
+    // --------------------------------------------------
+    const clearError = () => {
+    setError(null);
+    };
 
     // --------------------------------------------------
     // AUTHENTICATED
@@ -260,6 +274,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 login,
                 register,
                 logout,
+                clearError
             }}
         >
             {children}
@@ -274,12 +289,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 export function useAuth() {
 
-    const context = useContext(AuthContext);
+    const context =
+        useContext(AuthContext);
 
     if (!context) {
+
         throw new Error(
             "useAuth moet binnen een AuthProvider worden gebruikt."
         );
+
     }
 
     return context;
