@@ -1,37 +1,9 @@
-import {createContext,useContext,useEffect,useState} from "react";
+import {useEffect,useState} from "react";
 import type { ReactNode } from "react";
 import type { User } from "../types/User";
 import {loginAPI,registerAPI} from "../api/authApi";
 import { decodeToken } from "../utils/decodeToken";
-
-type AuthContextType = {
-    user: User | null;
-    token: string | null;
-
-    isLoading: boolean;
-    error: string | null;
-    isAuthenticated: boolean;
-
-    login: (
-        email: string,
-        password: string
-    ) => Promise<void>;
-
-    register: (
-        name: string,
-        email: string,
-        password: string,
-        teacherId: string
-    ) => Promise<void>;
-
-    logout: () => void;
-    clearError: () => void;
-};
-
-const AuthContext =
-    createContext<AuthContextType | undefined>(
-        undefined
-    );
+import { AuthContext } from "./authContext";
 
 type AuthProviderProps = {
     children: ReactNode;
@@ -280,25 +252,4 @@ export function AuthProvider({
             {children}
         </AuthContext.Provider>
     );
-}
-
-
-// --------------------------------------------------
-// USE AUTH
-// --------------------------------------------------
-
-export function useAuth() {
-
-    const context =
-        useContext(AuthContext);
-
-    if (!context) {
-
-        throw new Error(
-            "useAuth moet binnen een AuthProvider worden gebruikt."
-        );
-
-    }
-
-    return context;
 }

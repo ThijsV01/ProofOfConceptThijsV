@@ -36,7 +36,7 @@ function AppRoutes() {
             <Route path="/readinglist" element={<ReadinglistPage />} />
           </Route>
 
-          <Route element={<RoleRoute allowedRole="docent" />}>
+          <Route element={<RoleRoute allowedRole="teacher" />}>
             <Route path="/teacher" element={<TeacherPage />} />
           </Route>
         </Route>
