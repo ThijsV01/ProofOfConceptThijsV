@@ -1,8 +1,8 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
-import { getTeachers } from "../../api/teacherApi";
-import type { Teacher } from "../../api/teacherApi";
+import { useAuth } from "../../context/useAuth";
+import { getTeachersAPI } from "../../api/teacherApi";
+import type { Teacher } from "../../types/Teacher";
 import "./RegisterPage.css";
 
 function RegisterPage() {
@@ -27,7 +27,7 @@ function RegisterPage() {
 
       try {
 
-        const teachers = await getTeachers();
+        const teachers = await getTeachersAPI();
         console.log("Teachers response:", teachers);
 
         setTeachers(teachers.teachers);

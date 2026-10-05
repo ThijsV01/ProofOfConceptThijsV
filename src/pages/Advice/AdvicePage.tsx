@@ -1,41 +1,48 @@
 import { useEffect, useState } from "react";
 import type { Book } from "../../types/Book";
+import type { ReadingListItem } from "../../types/ReadingListItem";
 import BookList from "../../components/books/BookList";
 import BookSkeleton from "../../components/books/BookSkeleton";
 import Pagination from "../../components/catalog/Pagination";
-import { mockAdviceBookIds } from "../../data/Advice";
-import { mockBooks } from "../../data/Catalog";
-import {addToReadingList,getReadingList} from "../../services/readingListStorage";
+import {AddToReadingListAPI,GetReadingListAPI} from "../../api/readingListApi";
+import { getRecommendedAPI } from "../../api/booksApi";
 import "./AdvicePage.css";
 
 function AdvicePage() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [readingList, setReadingList] = useState(getReadingList());
+  const [readingList, setReadingList] = useState<ReadingListItem[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const recommendedBooks = mockBooks.filter(book =>
-    mockAdviceBookIds.includes(book.id)
-);
-
   const booksPerPage = 6;
-
+  async function loadReadingList() {
+    const response = await GetReadingListAPI();
+    setReadingList(response.list);
+  }
   useEffect(() => {
-    setLoading(true);
-    setError("");
+    async function loadData() {
+        setLoading(true);
+        setError("");
 
-    const timer = setTimeout(() => {
-      try {
-        setBooks(recommendedBooks);
-      } catch {
-        setError("De leesadviezen konden niet worden geladen.");
-      } finally {
-        setLoading(false);
-      }
-    }, 500);
+        try {
+            const booksResponse = await getRecommendedAPI();
 
-    return () => clearTimeout(timer);
+            setBooks(booksResponse.books);
+
+            await loadReadingList();
+        } catch (error) {
+            if (error instanceof Error) {
+                setError(error.message);
+            } else {
+                setError("De leesadviezen konden niet worden geladen.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    loadData();
   }, []);
 
   const totalPages = Math.ceil(books.length / booksPerPage);
@@ -51,9 +58,9 @@ function AdvicePage() {
     setCurrentPage(page);
   }
 
-  function handleAddToReadingList(book: Book) {
-    addToReadingList(book);
-    setReadingList(getReadingList());
+  async function handleAddToReadingList(book: Book) {
+    await AddToReadingListAPI(book.id);
+    await loadReadingList();
 }
 
   return (

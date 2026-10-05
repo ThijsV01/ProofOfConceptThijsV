@@ -1,32 +1,32 @@
 import { apiFetch } from "./client";
-
-export type Book = {
-    id: string;
-    title: string;
-    author: string;
-    description: string;
-    subject: string;
-    genre: string;
-    languageLevel: string;
-    length: string;
-};
+import type { Book } from "../types/Book";
 
 type GetBooksResponse = {
     books: Book[];
 };
 
-export function getBooks() {
+export function getBooksAPI() {
     return apiFetch<GetBooksResponse>(
-        "/books"
+        "/books",
+        {
+            method: "GET"
+        }
     );
 }
-export function getBook(bookId: string) {
+export function getBookAPI(bookId: string) {
     return apiFetch<Book>(
-        `/books/${bookId}`
+        `/books/${bookId}`,
+        {
+            method: "GET",
+            body: JSON.stringify(bookId)
+        }
     );
 }
-export function getRecommended() {
+export function getRecommendedAPI() {
     return apiFetch<GetBooksResponse>(
-        "/book/recommended"
+        "/books/recommended",
+        {
+            method: "GET"
+        }
     );
 }

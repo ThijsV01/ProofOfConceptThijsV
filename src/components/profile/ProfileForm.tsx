@@ -8,37 +8,48 @@ type ProfileFormProps = {
   onCancel: () => void;
   isEditing: boolean;
 };
-
-const fictionGenres = [
-  "Fantasy",
-  "Avontuur",
-  "Thriller",
-  "Romantiek",
-  "Sciencefiction",
-];
-
-const nonFictionGenres = [
-  "Geschiedenis",
-  "Sport",
-  "Wetenschap",
-  "Biografie",
-];
-
-const subjects = [
-  "Avontuur",
-  "Vriendschap",
-  "Liefde",
-  "Oorlog",
-  "Sport",
-  "Familie",
-];
-
-const readingExperiences = [
+//zelfde als in mongo
+const genres = [
   "Spanning",
+  "Horror",
   "Humor",
-  "Ontroering",
-  "Avontuur",
-  "Ontspanning",
+  "Liefde",
+  "Vriendschap",
+  "Fantasy",
+  "Science fiction",
+  "Geschiedenis",
+  "Oorlog",
+  "Stripboek",
+  "Gedichtenbundel",
+  "Bekend van social media",
+  "Biografie",
+  "Politiek",
+  "Beroepsgericht",
+  "Zelfhulpboeken",
+  "Waargebeurde verhalen",
+  "Informatief",
+];
+//zelfde als in mongo
+const subjects = [
+  "Sport of andere hobby's",
+  "Geld",
+  "School",
+  "Technologie",
+  "Liefde",
+  "Vriendschap",
+  "Cultuur",
+  "Dieren",
+  "Games",
+];
+
+//recommended moet hier wat mee doen
+const readingGoals = [
+    "Nieuwe werelden ontdekken",
+    "Aan het denken worden gezet",
+    "Iets leren of te weten komen",
+    "Een betere of snellere lezer worden",
+    "Mijn kansen op schoolsucces vergroten",
+    "Ik wil niet lezen",
 ];
 
 function ProfileForm({
@@ -48,34 +59,25 @@ function ProfileForm({
   onCancel,
   isEditing,
 }: ProfileFormProps) {
-
   const toggleArrayValue = (
-    field:
-      | "fictionGenre"
-      | "nonFictionGenre"
-      | "subjects"
-      | "readingExperience",
-    value: string
-  ) => {
-    const currentValues = profile[field];
+  field: "genre" | "subject",
+  value: string,
+) => {
+  const currentValues = profile[field] as string[];
 
-    const newValues = currentValues.includes(value)
-      ? currentValues.filter((item) => item !== value)
-      : [...currentValues, value];
+  const newValues = currentValues.includes(value)
+    ? currentValues.filter((item) => item !== value)
+    : [...currentValues, value];
 
-    onChange({
-      ...profile,
-      [field]: newValues,
-    });
-  };
+  onChange({
+    ...profile,
+    [field]: newValues,
+  });
+};
 
   const updateValue = (
-    field:
-      | "difficulty"
-      | "length"
-      | "fictionPreference"
-      | "mainCharacter",
-    value: string
+    field: "languageLevel" | "length" | "readingGoal",
+    value: string,
   ) => {
     onChange({
       ...profile,
@@ -91,80 +93,63 @@ function ProfileForm({
         onSubmit();
       }}
     >
-
       <details open>
-        <summary>Genres</summary>
+        <summary>Leesniveau</summary>
 
         <div className="form-content">
-          <OptionGroup
-            title="Fictie"
-            options={fictionGenres}
-            selected={profile.fictionGenre}
-            onToggle={(value) =>
-              toggleArrayValue("fictionGenre", value)
-            }
-          />
+          <label htmlFor="languageLevel">
+            Hoe moeilijk mag het zijn?
+          </label>
 
-          <OptionGroup
-            title="Waargebeurd"
-            options={nonFictionGenres}
-            selected={profile.nonFictionGenre}
-            onToggle={(value) =>
-              toggleArrayValue("nonFictionGenre", value)
+          <select
+            id="languageLevel"
+            value={profile.languageLevel}
+            onChange={(event) =>
+              updateValue("languageLevel", event.target.value)
             }
-          />
+          >
+            <option value="">Kies een niveau</option>
+            <option value="A1">Makkelijk (A1)</option>
+            <option value="A2">Makkelijk (A2)</option>
+            <option value="B1">Gemiddeld (B1)</option>
+            <option value="B2">Gemiddeld (B2)</option>
+            <option value="C1">Uitdagend (C1)</option>
+          </select>
         </div>
       </details>
 
+      <details>
+        <summary>Genre</summary>
+
+        <div className="form-content">
+          <OptionGroup
+            title="Welk genre spreekt je aan?"
+            options={genres}
+            selected={profile.genre}
+            onToggle={(value) => toggleArrayValue("genre", value)}
+          />
+        </div>
+      </details>
 
       <details>
         <summary>Onderwerpen</summary>
 
         <div className="form-content">
           <OptionGroup
-            title="Onderwerpen"
+            title="Over welke onderwerpen zou je willen lezen?"
             options={subjects}
-            selected={profile.subjects}
-            onToggle={(value) =>
-              toggleArrayValue("subjects", value)
-            }
+            selected={profile.subject}
+            onToggle={(value) => toggleArrayValue("subject", value)}
           />
         </div>
       </details>
-
-
-      <details>
-        <summary>Leesniveau</summary>
-
-        <div className="form-content">
-          <label htmlFor="difficulty">
-            Moeilijkheid
-          </label>
-
-          <select
-            id="difficulty"
-            value={profile.difficulty}
-            onChange={(event) =>
-              updateValue("difficulty", event.target.value)
-            }
-          >
-            <option value="">Kies een niveau</option>
-            <option value="A1">A1</option>
-            <option value="A2">A2</option>
-            <option value="B1">B1</option>
-            <option value="B2">B2</option>
-            <option value="C1">C1</option>
-          </select>
-        </div>
-      </details>
-
 
       <details>
         <summary>Leeslengte</summary>
 
         <div className="form-content">
           <label htmlFor="length">
-            Lengte
+            Hoe lang mag het zijn?
           </label>
 
           <select
@@ -175,92 +160,37 @@ function ProfileForm({
             }
           >
             <option value="">Kies een lengte</option>
-            <option value="Kort">Kort</option>
-            <option value="Gemiddeld">Gemiddeld</option>
+            <option value="Kort">Korte verhalen of teksten</option>
+            <option value="Gemiddeld">Middel</option>
             <option value="Lang">Lang</option>
           </select>
         </div>
       </details>
-
-
       <details>
-        <summary>Leeservaring</summary>
+    <summary>Leesdoel</summary>
 
-        <div className="form-content">
-          <OptionGroup
-            title="Wat wil je ervaren?"
-            options={readingExperiences}
-            selected={profile.readingExperience}
-            onToggle={(value) =>
-              toggleArrayValue("readingExperience", value)
-            }
-          />
-        </div>
-      </details>
+    <div className="form-content">
+        <label htmlFor="readingGoal">
+            Waarom lees je?
+        </label>
 
-
-      <details>
-        <summary>Fictie of waargebeurd</summary>
-
-        <div className="form-content">
-          <label htmlFor="fictionPreference">
-            Voorkeur
-          </label>
-
-          <select
-            id="fictionPreference"
-            value={profile.fictionPreference}
+        <select
+            id="readingGoal"
+            value={profile.readingGoal}
             onChange={(event) =>
-              updateValue(
-                "fictionPreference",
-                event.target.value
-              )
+                updateValue("readingGoal", event.target.value)
             }
-          >
-            <option value="">Kies een voorkeur</option>
-            <option value="Voornamelijk fictie">
-              Voornamelijk fictie
-            </option>
-            <option value="Voornamelijk waargebeurd">
-              Voornamelijk waargebeurd
-            </option>
-            <option value="Beide">
-              Beide
-            </option>
-          </select>
-        </div>
-      </details>
+        >
+            <option value="">Kies een leesdoel</option>
 
-
-      <details>
-        <summary>Hoofdpersoon</summary>
-
-        <div className="form-content">
-          <label htmlFor="mainCharacter">
-            Hoofdpersoon
-          </label>
-
-          <select
-            id="mainCharacter"
-            value={profile.mainCharacter}
-            onChange={(event) =>
-              updateValue(
-                "mainCharacter",
-                event.target.value
-              )
-            }
-          >
-            <option value="">Kies een voorkeur</option>
-            <option value="Jongen">Jongen</option>
-            <option value="Meisje">Meisje</option>
-            <option value="Volwassene">Volwassene</option>
-            <option value="Maakt niet uit">
-              Maakt niet uit
-            </option>
-          </select>
-        </div>
-      </details>
-
+            {readingGoals.map((goal) => (
+                <option key={goal} value={goal}>
+                    {goal}
+                </option>
+            ))}
+        </select>
+    </div>
+</details>
 
       <div className="profile-form-actions">
         {isEditing && (
@@ -282,11 +212,9 @@ function ProfileForm({
             : "Leesprofiel opslaan"}
         </button>
       </div>
-
     </form>
   );
 }
-
 
 type OptionGroupProps = {
   title: string;

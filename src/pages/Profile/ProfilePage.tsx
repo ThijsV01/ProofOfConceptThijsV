@@ -2,55 +2,43 @@ import { useEffect, useState } from "react";
 import type { ReadingProfile } from "../../types/Profile";
 import ProfileOverview from "../../components/profile/ProfileOverview";
 import ProfileForm from "../../components/profile/ProfileForm";
+import {getProfile, updateProfile, createProfile} from "../../api/profileApi"
 import "../Profile/ProfilePage.css";
 
 const emptyProfile: ReadingProfile = {
-  fictionGenre: [],
-  nonFictionGenre: [],
-  subjects: [],
-  difficulty: "",
+  languageLevel: "",
+  genre: [],
+  subject: [],
   length: "",
-  readingExperience: [],
-  fictionPreference: "",
-  mainCharacter: "",
+  readingGoal:""
 };
 
 function ProfilePage() {
   const [profile, setProfile] = useState<ReadingProfile>(emptyProfile);
-  const [originalProfile, setOriginalProfile] = useState<ReadingProfile>(emptyProfile);
-  const [saved, setSaved] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  const [hasProfile, setHasProfile] = useState(false);
-  const [editing, setEditing] = useState(false);
+    const [originalProfile, setOriginalProfile] =
+        useState<ReadingProfile>(emptyProfile);
 
-  // Profiel uit sessionStorage laden
-  useEffect(() => {
-    const savedProfile = sessionStorage.getItem("readingProfile");
+    const [hasProfile, setHasProfile] = useState(false);
+    const [editing, setEditing] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    const profileSaved = sessionStorage.getItem("profileSaved");
+    useEffect(() => {
+        async function loadProfile() {
+            try {
+                const data = await getProfile();
+                setProfile(data);
+                setOriginalProfile(data);
+                setHasProfile(true);
+            } catch (error) {
+                console.log("Geen profiel gevonden:", error);
+                setHasProfile(false);
+            } finally {
+                setLoading(false);
+            }
+        }
 
-    if (savedProfile) {
-      const parsedProfile: ReadingProfile = JSON.parse(savedProfile);
-
-      setProfile(parsedProfile);
-      setOriginalProfile(parsedProfile);
-    }
-
-    if (profileSaved === "true") {
-      setHasProfile(true);
-    }
-
-    setLoaded(true);
-  }, []);
-
-  // Profiel tijdelijk bewaren
-  useEffect(() => {
-    if (!loaded || editing) {
-      return;
-    }
-
-    sessionStorage.setItem("readingProfile", JSON.stringify(profile));
-  }, [profile, loaded, editing]);
+        loadProfile();
+    }, []);
 
   const handleEdit = () => {
     setOriginalProfile(profile);
@@ -70,64 +58,63 @@ function ProfilePage() {
     setEditing(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (
-      profile.fictionGenre.length === 0 ||
-      profile.nonFictionGenre.length === 0 ||
-      profile.subjects.length === 0 ||
-      profile.difficulty === "" ||
+      profile.languageLevel === "" ||
+      profile.genre.length === 0 ||
+      profile.subject.length === 0 ||
       profile.length === "" ||
-      profile.readingExperience.length === 0
+      profile.readingGoal === ""
     ) {
       alert("Vul alle verplichte vragen in.");
       return;
     }
+console.log(profile);
+    try {
+            if (hasProfile) {
+                const updatedProfile = await updateProfile(profile);
 
-    sessionStorage.setItem("readingProfile", JSON.stringify(profile));
-    setOriginalProfile(profile);
-    setSaved(true);
-    setHasProfile(true);
-    setEditing(false);
+                setProfile(updatedProfile);
+                setOriginalProfile(updatedProfile);
+            } else {
+                const createdProfile = await createProfile(profile);
 
-    sessionStorage.setItem("profileSaved", "true");
-    // Hier komt later de backend-call.
-  };
+                setProfile(createdProfile);
+                setOriginalProfile(createdProfile);
+                setHasProfile(true);
+            }
 
-  return (
-  <div className="profile-page">
-    <div className="profile-page-header">
-  <h1>Leesprofiel</h1>
+            setEditing(false);
+        } catch (error) {
+            console.error("Profiel opslaan mislukt:", error);
+            alert("Het opslaan van je profiel is mislukt.");
+        }
+    };
 
-  {hasProfile && !editing ? (
-    <p>Bekijk en pas jouw leesvoorkeuren aan.</p>
-  ) : (
-    <p>Vul jouw leesvoorkeuren in.</p>
-  )}
-</div>
+  if (loading) {
+        return <p>Profiel laden...</p>;
+    }
 
-    {saved && (
-      <div className="success-message">
-        <span>✓</span>
-        Je leesprofiel is opgeslagen!
-      </div>
-    )}
+    return (
+        <div className="profile-page">
+            <h1>Mijn leesprofiel</h1>
 
-    {hasProfile && !editing ? (
-      <ProfileOverview
-        profile={profile}
-        onEdit={handleEdit}
-      />
-    ) : (
-      <ProfileForm
-        profile={profile}
-        onChange={setProfile}
-        onSubmit={handleSave}
-        onCancel={handleCancel}
-        isEditing={editing}
-      />
-    )}
-  </div>
-);
+            {!hasProfile || editing ? (
+                <ProfileForm
+                    profile={profile}
+                    onChange={setProfile}
+                    onSubmit={handleSave}
+                    onCancel={handleCancel}
+                    isEditing={editing}
+                />
+            ) : (
+                <ProfileOverview
+                    profile={profile}
+                    onEdit={handleEdit}
+                />
+            )}
+        </div>
+    );
 }
 
 export default ProfilePage;

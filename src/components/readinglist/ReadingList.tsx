@@ -1,11 +1,11 @@
-import type { ReadingListItem as ReadingListItemType } from "../../types/ReadingListItem";
+import type { ReadingListItemWithBook } from "../../types/ReadingListItemWithBook";
 import ReadingListItem from "./ReadingListItem";
 import { Link } from "react-router-dom";
 
 type Props = {
-  items: ReadingListItemType[];
-  onToggleRead: (bookId: number) => void;
-  onRemove: (bookId: number) => void;
+  items: ReadingListItemWithBook[];
+  onToggleRead: (itemId: string) => void;
+  onRemove: (itemId: string) => void;
 };
 
 function ReadingList({ items, onToggleRead, onRemove }: Props) {
@@ -25,7 +25,7 @@ function ReadingList({ items, onToggleRead, onRemove }: Props) {
     <div className="reading-list">
       {items.map((item) => (
         <ReadingListItem
-          key={item.book.id}
+          key={item.id}
           item={item}
           onToggleRead={onToggleRead}
           onRemove={onRemove}

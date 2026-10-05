@@ -1,21 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Book } from "../../types/Book";
+import type { ReadingListItem } from "../../types/ReadingListItem";
 import BookList from "../../components/books/BookList";
 import CatalogusFilters from "../../components/catalog/CatalogFilters";
 import BookListSkeleton from "../../components/books/BookSkeleton";
 import Pagination from "../../components/catalog/Pagination";
-import { getBooks } from "../../api/booksApi";
+import { getBooksAPI } from "../../api/booksApi";
 import {
-  addToReadingList,
-  getReadingList,
-} from "../../services/readingListStorage";
+  AddToReadingListAPI,
+  GetReadingListAPI,
+} from "../../api/readingListApi";
 import "./CatalogPage.css";
 
 function CatalogPage() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [readingList, setReadingList] = useState(getReadingList());
+  const [readingList, setReadingList] = useState<ReadingListItem[]>([]);
 
   const [languageLevel, setLanguageLevel] = useState("");
   const [genre, setGenre] = useState("");
@@ -26,26 +27,33 @@ function CatalogPage() {
 
   const booksPerPage = 6;
 
+  async function loadReadingList() {
+        const response = await GetReadingListAPI();
+        setReadingList(response.list);
+    }
   useEffect(() => {
-    async function loadBooks() {
+    async function loadData() {
         setLoading(true);
         setError("");
 
         try {
-            const response = await getBooks();
-            setBooks(response.books);
+            const booksResponse = await getBooksAPI();
+            setBooks(booksResponse.books);
+
+            const readingListResponse = await GetReadingListAPI();
+            setReadingList(readingListResponse.list);
         } catch (error) {
             if (error instanceof Error) {
                 setError(error.message);
             } else {
-                setError("De boeken konden niet worden geladen.");
+                setError("De gegevens konden niet worden geladen.");
             }
         } finally {
             setLoading(false);
         }
     }
 
-    loadBooks();
+    loadData();
 }, []);
 
   const filteredBooks = useMemo(() => {
@@ -106,9 +114,9 @@ function CatalogPage() {
     setCurrentPage(1);
   }
 
-  function handleAddToReadingList(book: Book) {
-    addToReadingList(book);
-    setReadingList(getReadingList());
+  async function handleAddToReadingList(book: Book) {
+    await AddToReadingListAPI(book.id);
+    await loadReadingList();
   }
 
   return (

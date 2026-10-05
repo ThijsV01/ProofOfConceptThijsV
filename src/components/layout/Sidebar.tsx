@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import {User,Sparkles,Library,Bookmark,GraduationCap, LogOut, BookOpen} from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/useAuth";
 import "./Sidebar.css";
 
 function Sidebar() {
@@ -39,7 +39,7 @@ function Sidebar() {
           </>
         )}
 
-        {user.role === "docent" && (
+        {user.role === "teacher" && (
 
           <NavLink to="/teacher">
             <GraduationCap size={20} />

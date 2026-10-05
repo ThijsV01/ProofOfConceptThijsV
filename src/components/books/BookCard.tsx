@@ -15,7 +15,7 @@ function BookCard({
 }: BookCardProps) {
 
   const isInReadingList = readingList.some(
-    (item) => item.book.id === book.id
+    (item) => item.bookId === book.id
   );
 
   return (

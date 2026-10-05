@@ -1,9 +1,9 @@
-import type { ReadingListItem as ReadingListItemType } from "../../types/ReadingListItem";
+import type { ReadingListItemWithBook } from "../../types/ReadingListItemWithBook";
 
 type Props = {
-    item: ReadingListItemType;
-    onToggleRead: (bookId: number) => void;
-    onRemove: (bookId: number) => void;
+    item: ReadingListItemWithBook;
+    onToggleRead: (itemId: string) => void;
+    onRemove: (itemId: string) => void;
 };
 
 function ReadingListItem({
@@ -11,6 +11,13 @@ function ReadingListItem({
     onToggleRead,
     onRemove
 }: Props) {
+    if (!item.book) {
+        return (
+            <div className="reading-list-item">
+                <p>Boek niet gevonden.</p>
+            </div>
+        );
+    }
     return (
         <div className="reading-list-item">
             <div className="reading-list-info">
@@ -25,7 +32,7 @@ function ReadingListItem({
 
             <div className="reading-list-actions">
                 <button
-                    onClick={() => onToggleRead(item.book.id)}
+                    onClick={() => onToggleRead(item.id)}
                 >
                     {item.isRead
                         ? "Markeer als niet gelezen"
@@ -33,7 +40,7 @@ function ReadingListItem({
                 </button>
 
                 <button
-                    onClick={() => onRemove(item.book.id)}
+                    onClick={() => onRemove(item.id)}
                 >
                     Verwijderen
                 </button>

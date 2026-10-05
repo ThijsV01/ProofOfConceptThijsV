@@ -1,6 +1,6 @@
-import type { Book } from "./Book";
-
 export type ReadingListItem = {
-    book: Book;
+    id:string;
+    studentId:string
+    bookId: string;
     isRead: boolean;
 };

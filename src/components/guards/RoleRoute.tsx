@@ -1,9 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import type { UserRole } from "../../types/User";
+import { useAuth } from "../../context/useAuth";
+
+type Role = "student" | "teacher";
 
 type RoleRouteProps = {
-    allowedRole: UserRole;
+    allowedRole: Role;
 };
 
 function RoleRoute({ allowedRole }: RoleRouteProps) {
@@ -23,7 +24,7 @@ function RoleRoute({ allowedRole }: RoleRouteProps) {
             );
         }
 
-        if (user.role === "docent") {
+        if (user.role === "teacher") {
             return (
                 <Navigate
                     to="/teacher"

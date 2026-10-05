@@ -1,32 +1,40 @@
 import { useEffect, useState } from "react";
-
 import ReadingList from "../../components/readinglist/ReadingList";
-
-import type { ReadingListItem } from "../../types/ReadingListItem";
-
-import {
-    getReadingList,
-    removeFromReadingList,
-    toggleReadStatus
-} from "../../services/readingListStorage";
+import type { ReadingListItemWithBook } from "../../types/ReadingListItemWithBook";
+import { ChangeStatusReadAPI, GetReadingListAPI, RemoveFromReadingListAPI} from "../../api/readingListApi";
 
 import "./ReadingListPage.css";
 
 function ReadingListPage() {
-    const [readingList, setReadingList] = useState<ReadingListItem[]>([]);
+    const [readingList, setReadingList] = useState<ReadingListItemWithBook[]>([]);
 
-    useEffect(() => {
-        setReadingList(getReadingList());
-    }, []);
-
-    function handleToggleRead(bookId: number) {
-        toggleReadStatus(bookId);
-        setReadingList(getReadingList());
+    async function loadReadingList() {
+        const response = await GetReadingListAPI();
+        setReadingList(response.list);
     }
 
-    function handleRemove(bookId: number) {
-        removeFromReadingList(bookId);
-        setReadingList(getReadingList());
+    useEffect(() => {
+    async function loadData() {
+        try {
+            const response = await GetReadingListAPI();
+            setReadingList(response.list);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    loadData();
+}, []);
+
+
+    async function handleToggleRead(itemId: string) {
+        await ChangeStatusReadAPI(itemId);
+        await loadReadingList();
+    }
+
+    async function handleRemove(itemId: string) {
+        await RemoveFromReadingListAPI(itemId);
+        await loadReadingList();
     }
 
     return (
