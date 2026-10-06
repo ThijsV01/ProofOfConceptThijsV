@@ -39,12 +39,11 @@ function ProfileOverview({ profile, onEdit }: ProfileOverviewProps) {
           <h3>Lengte</h3>
           <p>{profile.length}</p>
         </div>
-      </div>
+        <div className="profile-card">
+          <h3>Leesdoel</h3>
 
-      <div className="profile-card">
-        <h3>Leesdoel</h3>
-
-        {profile.readingGoal}
+          {profile.readingGoal}
+        </div>
       </div>
 
       <div className="profile-actions">

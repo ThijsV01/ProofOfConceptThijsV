@@ -6,7 +6,9 @@
     justify-content: center;
 
     padding: 32px;
+
     background-color: #f9fafb;
+    box-sizing: border-box;
 }
 
 .register-card {
@@ -20,26 +22,98 @@
 
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
-    text-align: center;
+    box-sizing: border-box;
 }
 
 .register-card h1 {
     margin: 0 0 8px;
+
     color: #1f2937;
+
+    font-size: 28px;
+    text-align: center;
 }
 
-.register-card p {
-    margin: 0 0 24px;
+.register-card > p {
+    margin: 0 0 28px;
+
     color: #6b7280;
+
+    text-align: center;
 }
 
-.register-buttons {
+.register-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 18px;
 }
 
-.register-buttons button {
+.register-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    width: 100%;
+}
+
+.register-field label {
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: left;
+}
+
+.register-field input,
+.register-field select {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background-color: white;
+    color: #1f2937;
+
+    font-size: 16px;
+    font-family: inherit;
+
+    box-sizing: border-box;
+    outline: none;
+}
+
+.register-field input:focus,
+.register-field select:focus {
+    border-color: #62738f;
+
+    box-shadow: 0 0 0 2px rgba(98, 115, 143, 0.15);
+}
+
+.register-field input::placeholder {
+    color: #9ca3af;
+}
+
+.register-field select:disabled {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: default;
+}
+
+.register-error {
+    margin: -2px 0 0 !important;
+
+    color: #b91c1c !important;
+
+    font-size: 14px;
+
+    text-align: left !important;
+}
+
+.register-button {
+    width: 100%;
+
     padding: 12px 16px;
 
     border: none;
@@ -54,6 +128,45 @@
     cursor: pointer;
 }
 
-.register-buttons button:hover {
+.register-button:hover {
     background-color: #374151;
+}
+
+.register-button:disabled {
+    background-color: #6b7280;
+    cursor: default;
+}
+
+.register-login {
+    margin: 24px 0 0 !important;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.register-login a {
+    color: #1f2937;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.register-login a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .register-page {
+        padding: 20px;
+    }
+
+    .register-card {
+        padding: 24px 20px;
+    }
+
+    .register-card h1 {
+        font-size: 24px;
+    }
 }

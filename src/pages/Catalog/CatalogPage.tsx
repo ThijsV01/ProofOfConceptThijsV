@@ -28,33 +28,33 @@ function CatalogPage() {
   const booksPerPage = 6;
 
   async function loadReadingList() {
-        const response = await GetReadingListAPI();
-        setReadingList(response.list);
-    }
+    const response = await GetReadingListAPI();
+    setReadingList(response.list);
+  }
   useEffect(() => {
     async function loadData() {
-        setLoading(true);
-        setError("");
+      setLoading(true);
+      setError("");
 
-        try {
-            const booksResponse = await getBooksAPI();
-            setBooks(booksResponse.books);
+      try {
+        const booksResponse = await getBooksAPI();
+        setBooks(booksResponse.books);
 
-            const readingListResponse = await GetReadingListAPI();
-            setReadingList(readingListResponse.list);
-        } catch (error) {
-            if (error instanceof Error) {
-                setError(error.message);
-            } else {
-                setError("De gegevens konden niet worden geladen.");
-            }
-        } finally {
-            setLoading(false);
+        const readingListResponse = await GetReadingListAPI();
+        setReadingList(readingListResponse.list);
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("De gegevens konden niet worden geladen.");
         }
+      } finally {
+        setLoading(false);
+      }
     }
 
     loadData();
-}, []);
+  }, []);
 
   const filteredBooks = useMemo(() => {
     return books.filter((book) => {
@@ -63,7 +63,12 @@ function CatalogPage() {
 
       const matchesGenre = !genre || book.genre === genre;
 
-      const matchesSubject = !subject || book.subject === subject;
+      const matchesSubject =
+        !subject ||
+        book.subject
+          .split(",")
+          .map((item) => item.trim())
+          .includes(subject);
 
       const matchesLength = !length || book.length === length;
 

@@ -1,22 +1,61 @@
 .app-layout {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .main-area {
-  flex: 1;
-  min-width: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+    flex: 1;
+    min-width: 0;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
 }
 
 .page-content {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 24px;
+    flex: 1;
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 24px;
+}
+
+
+/* ========================================
+   Mobiele layout
+   ======================================== */
+
+@media (max-width: 768px) {
+
+    .app-layout {
+        display: flex;
+        flex-direction: column;
+
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .main-area {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+
+        flex: 1;
+
+        overflow: hidden;
+    }
+
+    .page-content {
+        flex: 1;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        padding: 20px;
+    }
 }

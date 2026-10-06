@@ -64,17 +64,17 @@ function CatalogusFilters({
                     }
                 >
                     <option value="">Alle genres</option>
-                    <option value="Avontuur">Avontuur</option>
-                    <option value="Biografie">Biografie</option>
-                    <option value="Fantasy">Fantasy</option>
-                    <option value="Historisch">Historisch</option>
-                    <option value="Horror">Horror</option>
-                    <option value="Humor">Humor</option>
-                    <option value="Oorlog">Oorlog</option>
                     <option value="Romantiek">Romantiek</option>
+                    <option value="Thriller">Thriller</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Horror">Horror</option>
                     <option value="Sciencefiction">Sciencefiction</option>
+                    <option value="Avontuur">Avontuur</option>
+                    <option value="Historisch">Historisch</option>
+                    <option value="Oorlog">Oorlog</option>
+                    <option value="Sport">Sport</option>
+                    <option value="Humor">Humor</option>
                     <option value="Overig/Onbekend">Overig</option>
-                    
                 </select>
             </div>
 
@@ -91,11 +91,17 @@ function CatalogusFilters({
                     }
                 >
                     <option value="">Alle onderwerpen</option>
-                    <option value="Sport">Sport</option>
-                    <option value="Liefde">Liefde</option>
-                    <option value="Geschiedenis">Geschiedenis</option>
-                    <option value="Avontuur">Avontuur</option>
-                    <option value="Maatschappij">Maatschappij</option>
+                    <option value="liefde">Liefde</option>
+                    <option value="vriendschap">Vriendschap</option>
+                    <option value="familie">Familie</option>
+                    <option value="school">School</option>
+                    <option value="oorlog">Oorlog</option>
+                    <option value="misdaad">Misdaad</option>
+                    <option value="avontuur">Avontuur</option>
+                    <option value="fantasie">Fantasie</option>
+                    <option value="sport">Sport</option>
+                    <option value="geschiedenis">Geschiedenis</option>
+                    <option value="Overig/Onbekend">Overig</option>
                 </select>
             </div>
 
@@ -115,7 +121,9 @@ function CatalogusFilters({
                     <option value="Kort">Kort</option>
                     <option value="Gemiddeld">Gemiddeld</option>
                     <option value="Lang">Lang</option>
-                    <option value="Overig/Onbekend">Overig/Niet bekend</option>
+                    <option value="Overig/Onbekend">
+                        Overig/Niet bekend
+                    </option>
                 </select>
             </div>
 

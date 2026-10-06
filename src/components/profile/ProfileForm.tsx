@@ -10,36 +10,29 @@ type ProfileFormProps = {
 };
 //zelfde als in mongo
 const genres = [
-  "Spanning",
-  "Horror",
-  "Humor",
-  "Liefde",
-  "Vriendschap",
+  "Romantiek",
+  "Thriller",
   "Fantasy",
-  "Science fiction",
-  "Geschiedenis",
+  "Horror",
+  "Sciencefiction",
+  "Avontuur",
+  "Historisch",
   "Oorlog",
-  "Stripboek",
-  "Gedichtenbundel",
-  "Bekend van social media",
-  "Biografie",
-  "Politiek",
-  "Beroepsgericht",
-  "Zelfhulpboeken",
-  "Waargebeurde verhalen",
-  "Informatief",
+  "Sport",
+  "Humor"
 ];
 //zelfde als in mongo
 const subjects = [
-  "Sport of andere hobby's",
-  "Geld",
-  "School",
-  "Technologie",
-  "Liefde",
-  "Vriendschap",
-  "Cultuur",
-  "Dieren",
-  "Games",
+  "liefde",
+  "vriendschap",
+  "familie",
+  "school",
+  "oorlog",
+  "misdaad",
+  "avontuur",
+  "fantasie",
+  "sport",
+  "geschiedenis"
 ];
 
 //recommended moet hier wat mee doen

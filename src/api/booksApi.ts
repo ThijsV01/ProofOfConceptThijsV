@@ -5,6 +5,14 @@ type GetBooksResponse = {
     books: Book[];
 };
 
+export type RecommendedBook = Book & {
+    reason: string;
+};
+
+type RecommendedBooksResponse = {
+    books: RecommendedBook[];
+};
+
 export function getBooksAPI() {
     return apiFetch<GetBooksResponse>(
         "/books",
@@ -23,7 +31,7 @@ export function getBookAPI(bookId: string) {
     );
 }
 export function getRecommendedAPI() {
-    return apiFetch<GetBooksResponse>(
+    return apiFetch<RecommendedBooksResponse>(
         "/books/recommended",
         {
             method: "GET"

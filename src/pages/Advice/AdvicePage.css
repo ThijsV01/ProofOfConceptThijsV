@@ -1,25 +1,210 @@
 .advies-page {
-    min-height: 100vh;
-    overflow: visible;
+    padding: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
+/* Header */
 .advies-page-header {
     margin-bottom: 32px;
 }
 
 .advies-page-header h1 {
-    margin-bottom: 8px;
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 700;
 }
 
 .advies-page-header p {
+    margin: 0;
     color: #666;
     font-size: 16px;
 }
 
-.empty-message,
-.error-message {
-    padding: 32px;
-    text-align: center;
-    border-radius: 12px;
+/* Resultaten */
+.advies-results {
+    margin-bottom: 20px;
+}
+
+.advies-results p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Boeken */
+.advies-book-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Boekkaart */
+.advies-book-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 20px;
+
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+
+    background: #ffffff;
+}
+
+.advies-book-content h2 {
+    margin: 0 0 6px;
+    font-size: 20px;
+}
+
+.advies-book-author {
+    margin: 0 0 14px;
+    color: #666;
+    font-size: 14px;
+}
+
+.advies-book-description {
+    margin: 0;
+    color: #444;
+    line-height: 1.5;
+}
+
+/* Waarom dit boek */
+.advies-book-reason {
+    margin-top: 18px;
+    padding: 14px;
+
+    border-radius: 8px;
+    background: #f7f7f7;
+}
+
+.advies-book-reason strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.advies-book-reason p {
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Knop */
+.advies-book-card button {
+    width: 100%;
+
+    border: 1px solid #d0d0d0;
+    border-radius: 7px;
+
+    padding: 10px 14px;
+
+    background: white;
+    color: #333;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.advies-book-card button:hover {
+    background: #f2f2f2;
+}
+
+.advies-book-card button:disabled {
     background: #f5f5f5;
+    color: #888;
+    cursor: default;
+}
+
+/* Laden */
+.advies-loading {
+    padding: 40px 20px;
+    text-align: center;
+    color: #666;
+}
+
+/* Geen resultaten */
+.empty-message {
+    padding: 40px 20px;
+
+    border: 1px dashed #d5d5d5;
+    border-radius: 10px;
+
+    background: #fafafa;
+
+    text-align: center;
+}
+
+.empty-message h2 {
+    margin: 0 0 8px;
+}
+
+.empty-message p {
+    margin: 0;
+    color: #666;
+}
+
+/* Error */
+.error-message {
+    padding: 24px;
+
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+
+    background: #fafafa;
+}
+
+.error-message h2 {
+    margin: 0 0 8px;
+}
+
+.error-message p {
+    margin: 0;
+    color: #666;
+}
+
+/* Tablet */
+@media (max-width: 1000px) {
+    .advies-book-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobiel */
+@media (max-width: 768px) {
+    .advies-page {
+        padding: 20px;
+    }
+
+    .advies-page-header h1 {
+        font-size: 28px;
+    }
+
+    .advies-book-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Klein mobiel */
+@media (max-width: 480px) {
+    .advies-page {
+        padding: 14px;
+    }
+
+    .advies-page-header {
+        margin-bottom: 24px;
+    }
+
+    .advies-page-header h1 {
+        font-size: 24px;
+    }
+
+    .advies-book-card {
+        padding: 16px;
+    }
 }

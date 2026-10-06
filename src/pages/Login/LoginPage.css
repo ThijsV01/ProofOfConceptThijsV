@@ -6,7 +6,9 @@
     justify-content: center;
 
     padding: 32px;
+
     background-color: #f9fafb;
+    box-sizing: border-box;
 }
 
 .login-card {
@@ -20,26 +22,99 @@
 
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
-    text-align: center;
+    box-sizing: border-box;
 }
 
 .login-card h1 {
     margin: 0 0 8px;
+
     color: #1f2937;
+
+    font-size: 28px;
+    text-align: center;
 }
 
-.login-card p {
-    margin: 0 0 24px;
+.login-card > p {
+    margin: 0 0 28px;
+
     color: #6b7280;
+
+    text-align: center;
 }
 
-.login-buttons {
+
+/* Formulier */
+
+.login-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 18px;
 }
 
-.login-buttons button {
+.login-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    width: 100%;
+}
+
+.login-field label {
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: left;
+}
+
+.login-field input {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background-color: white;
+    color: #1f2937;
+
+    font-size: 16px;
+    font-family: inherit;
+
+    box-sizing: border-box;
+
+    outline: none;
+}
+
+.login-field input:focus {
+    border-color: #62738f;
+    box-shadow: 0 0 0 2px rgba(98, 115, 143, 0.15);
+}
+
+.login-field input::placeholder {
+    color: #9ca3af;
+}
+
+
+/* Foutmelding */
+
+.login-error {
+    margin: -2px 0 0 !important;
+
+    color: #b91c1c !important;
+
+    font-size: 14px;
+
+    text-align: left !important;
+}
+
+
+/* Login knop */
+
+.login-button {
+    width: 100%;
+
     padding: 12px 16px;
 
     border: none;
@@ -54,6 +129,52 @@
     cursor: pointer;
 }
 
-.login-buttons button:hover {
+.login-button:hover {
     background-color: #374151;
+}
+
+.login-button:disabled {
+    background-color: #6b7280;
+    cursor: default;
+}
+
+
+/* Registratielink */
+
+.login-register {
+    margin: 24px 0 0 !important;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.login-register a {
+    color: #1f2937;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.login-register a:hover {
+    text-decoration: underline;
+}
+
+
+/* Mobiel */
+
+@media (max-width: 480px) {
+
+    .login-page {
+        padding: 20px;
+    }
+
+    .login-card {
+        padding: 24px 20px;
+    }
+
+    .login-card h1 {
+        font-size: 24px;
+    }
 }

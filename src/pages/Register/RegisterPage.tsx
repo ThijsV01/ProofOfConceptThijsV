@@ -6,7 +6,6 @@ import type { Teacher } from "../../types/Teacher";
 import "./RegisterPage.css";
 
 function RegisterPage() {
-
   const { register, isLoading, error, clearError } = useAuth();
   const navigate = useNavigate();
 
@@ -22,35 +21,23 @@ function RegisterPage() {
   const [teachersLoading, setTeachersLoading] = useState(true);
 
   useEffect(() => {
-
     const loadTeachers = async () => {
-
       try {
-
         const teachers = await getTeachersAPI();
-        console.log("Teachers response:", teachers);
-
         setTeachers(teachers.teachers);
-
       } catch {
-
         setValidationError(
           "De docenten konden niet worden opgehaald."
         );
-
       } finally {
-
         setTeachersLoading(false);
-
       }
     };
 
     loadTeachers();
-
   }, []);
 
   const handleRegister = async () => {
-
     setValidationError("");
 
     if (!name || !email || !password || !confirmPassword || !teacherId) {
@@ -67,7 +54,7 @@ function RegisterPage() {
       await register(name, email, password, teacherId);
       navigate("/login");
     } catch {
-      // AuthContext handelt de fout af. 
+      // AuthContext handelt de fout af.
     }
   };
 
@@ -78,83 +65,116 @@ function RegisterPage() {
 
         <p>Registreer om Libri te kunnen gebruiken.</p>
 
-        <div> 
-          <label htmlFor="name"> 
-            Naam 
-          </label> 
-          <input id="name" type="text" value={name} 
-            onChange={(event) => setName(event.target.value)} placeholder="Je naam" /> 
-        </div> 
-        <div> 
-          <label htmlFor="email">
-             E-mailadres 
-          </label> 
-          <input id="email" type="email" value={email} 
-            onChange={(event) => setEmail(event.target.value)} placeholder="jouw@email.nl" />
-        </div> 
-        <div> 
-          <label htmlFor="password"> 
-            Wachtwoord 
-          </label> 
-          <input id="password" type="password" value={password} 
-            onChange={(event) => setPassword(event.target.value)} placeholder="Wachtwoord" />
-        </div> 
-        <div> 
-          <label htmlFor="confirmPassword">
-            Wachtwoord bevestigen 
-          </label> 
-          <input id="confirmPassword" type="password" value={confirmPassword} 
-            onChange={(event) => setConfirmPassword(event.target.value)} placeholder="Herhaal je wachtwoord" />
-        </div> 
-        <div>
+        <div className="register-form">
+          <div className="register-field">
+            <label htmlFor="name">
+              Naam
+            </label>
 
-          <label htmlFor="teacher">
-            Docent
-          </label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Je naam"
+            />
+          </div>
 
-          <select
-            id="teacher"
-            value={teacherId}
-            onChange={(event) =>
-              setTeacherId(event.target.value)
-            }
-            disabled={teachersLoading}
-          >
+          <div className="register-field">
+            <label htmlFor="email">
+              E-mailadres
+            </label>
 
-            <option value="">
-              {teachersLoading
-                ? "Docenten laden..."
-                : "Kies je docent"}
-            </option>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="jouw@email.nl"
+            />
+          </div>
 
-            {teachers.map((teacher) => (
-              <option
-                key={teacher.id}
-                value={teacher.id}
-              >
-                {teacher.name}
+          <div className="register-field">
+            <label htmlFor="password">
+              Wachtwoord
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Wachtwoord"
+            />
+          </div>
+
+          <div className="register-field">
+            <label htmlFor="confirmPassword">
+              Wachtwoord bevestigen
+            </label>
+
+            <input
+              id="confirmPassword"
+              type="password"
+              value={confirmPassword}
+              onChange={(event) =>
+                setConfirmPassword(event.target.value)
+              }
+              placeholder="Herhaal je wachtwoord"
+            />
+          </div>
+
+          <div className="register-field">
+            <label htmlFor="teacher">
+              Docent
+            </label>
+
+            <select
+              id="teacher"
+              value={teacherId}
+              onChange={(event) => setTeacherId(event.target.value)}
+              disabled={teachersLoading}
+            >
+              <option value="">
+                {teachersLoading
+                  ? "Docenten laden..."
+                  : "Kies je docent"}
               </option>
-            ))}
 
-          </select>
+              {teachers.map((teacher) => (
+                <option
+                  key={teacher.id}
+                  value={teacher.id}
+                >
+                  {teacher.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
+          {(validationError || error) && (
+            <p className="register-error">
+              {validationError || error}
+            </p>
+          )}
+
+          <button
+            className="register-button"
+            onClick={handleRegister}
+            disabled={isLoading}
+          >
+            {isLoading ? "Registreren..." : "Registreren"}
+          </button>
         </div>
 
-        {(validationError || error) && (
-          <p className="register-error"> 
-            {validationError || error} 
-          </p>
-        )} 
-          <button onClick={handleRegister} disabled={isLoading} >
-            {isLoading ? "Registreren..." : "Registreren"} 
-          </button> 
-          <p> Heb je al een account?{" "} 
-            <Link to="/login" onClick={clearError}>
-             Log hier in 
-            </Link> 
-          </p> 
-      </div >
-    </div >
+        <p className="register-login">
+          Heb je al een account?{" "}
+          <Link to="/login" onClick={clearError}>
+            Log hier in
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 }
 
