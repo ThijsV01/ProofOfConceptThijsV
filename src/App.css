@@ -6,3 +6,11 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #62738f;
+    outline-offset: 2px;
+}

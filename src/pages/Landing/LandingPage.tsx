@@ -3,7 +3,7 @@ import "./LandingPage.css";
 
 function LandingPage() {
     return (
-        <div className="landing-page">
+        <main className="landing-page">
             <div className="landing-content">
                 <h1>Welkom bij Libri</h1>
 
@@ -21,7 +21,7 @@ function LandingPage() {
                 </Link>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
 

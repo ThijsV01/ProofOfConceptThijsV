@@ -24,7 +24,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="login-page">
+    <main className="login-page">
       <div className="login-card">
         <h1>Log in</h1>
 
@@ -81,7 +81,7 @@ function LoginPage() {
           </Link>
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 

@@ -11,12 +11,12 @@ function ProfileOverview({ profile, onEdit }: ProfileOverviewProps) {
     <div>
       <div className="profile-grid">
         <div className="profile-card">
-          <h3>Taalniveau</h3>
+          <h2>Taalniveau</h2>
           <p>{profile.languageLevel}</p>
         </div>
 
         <div className="profile-card">
-          <h3>Genres</h3>
+          <h2>Genres</h2>
 
           <div className="profile-values">
             {profile.genre.map((genre) => (
@@ -26,7 +26,7 @@ function ProfileOverview({ profile, onEdit }: ProfileOverviewProps) {
         </div>
 
         <div className="profile-card">
-          <h3>Onderwerpen</h3>
+          <h2>Onderwerpen</h2>
 
           <div className="profile-values">
             {profile.subject.map((subject) => (
@@ -36,11 +36,11 @@ function ProfileOverview({ profile, onEdit }: ProfileOverviewProps) {
         </div>
 
         <div className="profile-card">
-          <h3>Lengte</h3>
+          <h2>Lengte</h2>
           <p>{profile.length}</p>
         </div>
         <div className="profile-card">
-          <h3>Leesdoel</h3>
+          <h2>Leesdoel</h2>
 
           {profile.readingGoal}
         </div>

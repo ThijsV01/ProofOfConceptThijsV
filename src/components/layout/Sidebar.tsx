@@ -38,6 +38,7 @@ function Sidebar() {
           className="sidebar-menu-button"
           onClick={() => setIsOpen((current) => !current)}
           aria-label={isOpen ? "Menu sluiten" : "Menu openen"}
+          aria-expanded={isOpen}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

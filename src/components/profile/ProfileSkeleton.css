@@ -1,0 +1,74 @@
+.profile-skeleton {
+  width: 100%;
+}
+.profile-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.profile-skeleton-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+}
+.skeleton {
+  background: #e5e7eb;
+  border-radius: 6px;
+  animation: skeleton-loading 1.5s infinite;
+}
+.skeleton-title {
+  width: 35%;
+  height: 18px;
+  margin-bottom: 16px;
+}
+.skeleton-text {
+  width: 30%;
+  height: 20px;
+}
+.profile-skeleton-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.skeleton-tag {
+  width: 90px;
+  height: 28px;
+}
+.skeleton-tag-short {
+  width: 65px;
+  height: 28px;
+}
+.skeleton-reading-goal {
+  width: 90%;
+  height: 18px;
+  margin-bottom: 8px;
+}
+.skeleton-reading-goal-short {
+  width: 60%;
+  height: 18px;
+}
+.profile-skeleton-button {
+  width: 140px;
+  height: 40px;
+  margin-top: 20px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  animation: skeleton-loading 1.5s infinite;
+}
+@keyframes skeleton-loading {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+@media (max-width: 768px) {
+  .profile-skeleton-grid {
+    grid-template-columns: 1fr;
+  }
+}

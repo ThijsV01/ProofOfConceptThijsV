@@ -1,4 +1,5 @@
 import type { ReadingProfile } from "../../types/Profile";
+import { useState } from "react";
 import "./ProfileForm.css";
 
 type ProfileFormProps = {
@@ -8,7 +9,8 @@ type ProfileFormProps = {
   onCancel: () => void;
   isEditing: boolean;
 };
-//zelfde als in mongo
+
+// hetzelfde als in MongoDB
 const genres = [
   "Romantiek",
   "Thriller",
@@ -19,9 +21,10 @@ const genres = [
   "Historisch",
   "Oorlog",
   "Sport",
-  "Humor"
+  "Humor",
 ];
-//zelfde als in mongo
+
+// hetzelfde als in MongoDB
 const subjects = [
   "liefde",
   "vriendschap",
@@ -32,17 +35,16 @@ const subjects = [
   "avontuur",
   "fantasie",
   "sport",
-  "geschiedenis"
+  "geschiedenis",
 ];
 
-//recommended moet hier wat mee doen
 const readingGoals = [
-    "Nieuwe werelden ontdekken",
-    "Aan het denken worden gezet",
-    "Iets leren of te weten komen",
-    "Een betere of snellere lezer worden",
-    "Mijn kansen op schoolsucces vergroten",
-    "Ik wil niet lezen",
+  "Nieuwe werelden ontdekken",
+  "Aan het denken worden gezet",
+  "Iets leren of te weten komen",
+  "Een betere of snellere lezer worden",
+  "Mijn kansen op schoolsucces vergroten",
+  "Ik wil niet lezen",
 ];
 
 function ProfileForm({
@@ -52,21 +54,18 @@ function ProfileForm({
   onCancel,
   isEditing,
 }: ProfileFormProps) {
-  const toggleArrayValue = (
-  field: "genre" | "subject",
-  value: string,
-) => {
-  const currentValues = profile[field] as string[];
+  const toggleArrayValue = (field: "genre" | "subject", value: string) => {
+    const currentValues = profile[field] as string[];
 
-  const newValues = currentValues.includes(value)
-    ? currentValues.filter((item) => item !== value)
-    : [...currentValues, value];
+    const newValues = currentValues.includes(value)
+      ? currentValues.filter((item) => item !== value)
+      : [...currentValues, value];
 
-  onChange({
-    ...profile,
-    [field]: newValues,
-  });
-};
+    onChange({
+      ...profile,
+      [field]: newValues,
+    });
+  };
 
   const updateValue = (
     field: "languageLevel" | "length" | "readingGoal",
@@ -77,22 +76,56 @@ function ProfileForm({
       [field]: value,
     });
   };
+  const [validationError, setValidationError] = useState("");
+  const handleSubmit = () => {
+    if (!profile.languageLevel) {
+      setValidationError("Kies een leesniveau.");
+      return;
+    }
+
+    if (profile.genre.length === 0) {
+      setValidationError("Kies minimaal één genre.");
+      return;
+    }
+
+    if (profile.subject.length === 0) {
+      setValidationError("Kies minimaal één onderwerp.");
+      return;
+    }
+
+    if (!profile.length) {
+      setValidationError("Kies een leeslengte.");
+      return;
+    }
+
+    if (!profile.readingGoal) {
+      setValidationError("Kies een leesdoel.");
+      return;
+    }
+
+    setValidationError("");
+    onSubmit();
+  };
 
   return (
     <form
       className="profile-form"
       onSubmit={(event) => {
         event.preventDefault();
-        onSubmit();
+        handleSubmit();
       }}
     >
+      <p className="required-info">
+        Velden met een <span className="required">*</span> zijn verplicht.
+      </p>
+
       <details open>
-        <summary>Leesniveau</summary>
+        <summary>
+          Leesniveau<span className="required">*</span>
+        </summary>
 
         <div className="form-content">
-          <label htmlFor="languageLevel">
-            Hoe moeilijk mag het zijn?
-          </label>
+          <label htmlFor="languageLevel">Hoe moeilijk mag het zijn?</label>
 
           <select
             id="languageLevel"
@@ -112,7 +145,9 @@ function ProfileForm({
       </details>
 
       <details>
-        <summary>Genre</summary>
+        <summary>
+          Genre <span className="required">*</span>
+        </summary>
 
         <div className="form-content">
           <OptionGroup
@@ -125,7 +160,9 @@ function ProfileForm({
       </details>
 
       <details>
-        <summary>Onderwerpen</summary>
+        <summary>
+          Onderwerpen <span className="required">*</span>
+        </summary>
 
         <div className="form-content">
           <OptionGroup
@@ -138,19 +175,17 @@ function ProfileForm({
       </details>
 
       <details>
-        <summary>Leeslengte</summary>
+        <summary>
+          Leeslengte<span className="required">*</span>
+        </summary>
 
         <div className="form-content">
-          <label htmlFor="length">
-            Hoe lang mag het zijn?
-          </label>
+          <label htmlFor="length">Hoe lang mag het zijn?</label>
 
           <select
             id="length"
             value={profile.length}
-            onChange={(event) =>
-              updateValue("length", event.target.value)
-            }
+            onChange={(event) => updateValue("length", event.target.value)}
           >
             <option value="">Kies een lengte</option>
             <option value="Kort">Korte verhalen of teksten</option>
@@ -159,50 +194,44 @@ function ProfileForm({
           </select>
         </div>
       </details>
+
       <details>
-    <summary>Leesdoel</summary>
+        <summary>
+          Leesdoel<span className="required">*</span>
+        </summary>
 
-    <div className="form-content">
-        <label htmlFor="readingGoal">
-            Waarom lees je?
-        </label>
+        <div className="form-content">
+          <label htmlFor="readingGoal">Waarom lees je?</label>
 
-        <select
+          <select
             id="readingGoal"
             value={profile.readingGoal}
-            onChange={(event) =>
-                updateValue("readingGoal", event.target.value)
-            }
-        >
+            onChange={(event) => updateValue("readingGoal", event.target.value)}
+          >
             <option value="">Kies een leesdoel</option>
 
             {readingGoals.map((goal) => (
-                <option key={goal} value={goal}>
-                    {goal}
-                </option>
+              <option key={goal} value={goal}>
+                {goal}
+              </option>
             ))}
-        </select>
-    </div>
-</details>
-
+          </select>
+        </div>
+      </details>
+      {validationError && (
+        <p className="profile-form-error" role="alert">
+          {validationError}
+        </p>
+      )}
       <div className="profile-form-actions">
         {isEditing && (
-          <button
-            type="button"
-            className="cancel-button"
-            onClick={onCancel}
-          >
+          <button type="button" className="cancel-button" onClick={onCancel}>
             Annuleren
           </button>
         )}
 
-        <button
-          type="submit"
-          className="save-button"
-        >
-          {isEditing
-            ? "Wijzigingen opslaan"
-            : "Leesprofiel opslaan"}
+        <button type="submit" className="save-button">
+          {isEditing ? "Wijzigingen opslaan" : "Leesprofiel opslaan"}
         </button>
       </div>
     </form>
@@ -216,12 +245,7 @@ type OptionGroupProps = {
   onToggle: (value: string) => void;
 };
 
-function OptionGroup({
-  title,
-  options,
-  selected,
-  onToggle,
-}: OptionGroupProps) {
+function OptionGroup({ title, options, selected, onToggle }: OptionGroupProps) {
   return (
     <div className="option-group">
       <h3>{title}</h3>
@@ -234,11 +258,7 @@ function OptionGroup({
             <button
               key={option}
               type="button"
-              className={
-                selectedOption
-                  ? "option selected"
-                  : "option"
-              }
+              className={selectedOption ? "option selected" : "option"}
               onClick={() => onToggle(option)}
             >
               {option}

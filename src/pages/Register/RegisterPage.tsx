@@ -59,7 +59,7 @@ function RegisterPage() {
   };
 
   return (
-    <div className="register-page">
+    <main className="register-page">
       <div className="register-card">
         <h1>Registreer</h1>
 
@@ -174,7 +174,7 @@ function RegisterPage() {
           </Link>
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 

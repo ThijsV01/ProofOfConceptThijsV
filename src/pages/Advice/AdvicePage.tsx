@@ -9,6 +9,7 @@ import {
 import { getRecommendedAPI } from "../../api/booksApi";
 import "./AdvicePage.css";
 import { Link } from "react-router-dom";
+import AdviceSkeleton from "../../components/advice/AdviceSkeleton";
 
 type RecommendedBook = Book & {
     reason: string;
@@ -111,11 +112,7 @@ function AdvicePage() {
                 </div>
             )}
 
-            {loading && (
-                <div className="advies-loading">
-                    <p>Je leesadvies wordt geladen...</p>
-                </div>
-            )}
+            {loading && <AdviceSkeleton />}
 
             {!loading && error && (
                 <div className="error-message">

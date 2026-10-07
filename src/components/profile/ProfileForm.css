@@ -151,6 +151,12 @@
 .cancel-button:hover {
     background-color: #f9fafb;
 }
+.profile-form-error {
+    margin: 0;
+    color: #b91c1c;
+    font-size: 14px;
+    font-weight: 600;
+}
 
 @media (max-width: 700px) {
     .profile-form-actions {
